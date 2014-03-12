@@ -1,15 +1,8 @@
 package presenter;
 
 import java.io.IOException;
-import java.util.List;
-
-import javax.persistence.EntityManager;
 import javax.servlet.http.*;
-
-import model.Employee;
 import presenter.EmployeeManager;
-import model.Equipment;
-import shared.EMF;
 
 
 @SuppressWarnings("serial")
