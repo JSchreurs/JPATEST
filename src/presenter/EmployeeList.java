@@ -3,11 +3,13 @@ package presenter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.*;
 
 import model.Employee;
 import presenter.EmployeeManager;
 import model.Equipment;
+import shared.EMF;
 
 
 @SuppressWarnings("serial")
@@ -64,10 +66,11 @@ public class EmployeeList extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 			
+		
+		EntityManager em = EMF.get().createEntityManager();
 		EmployeeManager mgr = new EmployeeManager();
 		List<Employee> results;
 		List<Equipment> equipList;
-		boolean hasEquipment = false;
 		results = mgr.retrieveEmployeeList();
 		
 		
@@ -75,22 +78,16 @@ public class EmployeeList extends HttpServlet {
 	    	resp.getWriter().println(e.getLastName()+", "+ e.getFirstName() + " - "+ e.getDepartment() + " - "+ e.getEmail());
 	    	resp.getWriter().println("----- Equipment Records ---------");
 	    	
-	    	
-	    	hasEquipment = e.hasEquipment();
-	    	if(hasEquipment){
-	    		equipList = mgr.retrieveEmployeeEquipment(e);	    		
-	    		for(Equipment q : equipList){
-	    		resp.getWriter().println(q.getName()+"  -  " + q.getType());
+	    	/*	
+	    	for(Equipment eq : em.merge(e.getAllEquipment())){
+	    			equipList = mgr.retrieveEmployeeEquipment(e);	    		
+	    			resp.getWriter().println(eq.getName()+"  -  " + eq.getType());
 	    		}
-	    		
+	    		*/
 	    	}
 	    	
-	    }
-
-		
-		
 	    	
-	}
+	    }
 	
 
 
