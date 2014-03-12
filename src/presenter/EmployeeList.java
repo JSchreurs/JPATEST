@@ -62,33 +62,6 @@ public class EmployeeList extends HttpServlet {
 	
 	}
 
-
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
-			
-		
-		EntityManager em = EMF.get().createEntityManager();
-		EmployeeManager mgr = new EmployeeManager();
-		List<Employee> results;
-		List<Equipment> equipList;
-		results = mgr.retrieveEmployeeList();
-		
-		for (Employee e : results) 
-		{
-	    	resp.getWriter().println(e.getLastName()+", "+ e.getFirstName() + " - "+ e.getDepartment() + " - "+ e.getEmail());
-	    	resp.getWriter().println("----- Equipment Records ---------");
-	    	equipList = em.merge(e).getAllEquipment();	
-	    	
-	    	for(Equipment eq : equipList)
-	    	{
-	    			equipList = mgr.retrieveEmployeeEquipment(e);	    		
-	    			resp.getWriter().println(eq.getName()+"  -  " + eq.getType());
-	    	}
-	    		
-	    }
-	    	
-	    	
-	    }
 	
 
 
