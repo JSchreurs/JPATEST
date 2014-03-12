@@ -73,18 +73,19 @@ public class EmployeeList extends HttpServlet {
 		List<Equipment> equipList;
 		results = mgr.retrieveEmployeeList();
 		
-		
-		for (Employee e : results) {
+		for (Employee e : results) 
+		{
 	    	resp.getWriter().println(e.getLastName()+", "+ e.getFirstName() + " - "+ e.getDepartment() + " - "+ e.getEmail());
 	    	resp.getWriter().println("----- Equipment Records ---------");
+	    	equipList = em.merge(e).getAllEquipment();	
 	    	
-	    	/*	
-	    	for(Equipment eq : em.merge(e.getAllEquipment())){
+	    	for(Equipment eq : equipList)
+	    	{
 	    			equipList = mgr.retrieveEmployeeEquipment(e);	    		
 	    			resp.getWriter().println(eq.getName()+"  -  " + eq.getType());
-	    		}
-	    		*/
 	    	}
+	    		
+	    }
 	    	
 	    	
 	    }
