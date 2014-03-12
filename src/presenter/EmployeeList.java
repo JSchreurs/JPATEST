@@ -14,6 +14,8 @@ public class EmployeeList extends HttpServlet {
 		EmployeeManager mgr = new EmployeeManager();
 		boolean success = false;
 		
+		
+		//COLLECT ALL THE VARIOUS PARAMETERS
 
 		String firstName = req.getParameter("firstName");
 	    String lastName = req.getParameter("lastName");
@@ -21,10 +23,15 @@ public class EmployeeList extends HttpServlet {
 	    String dept = req.getParameter("dept");
 		String eqType = req.getParameter("eqType");
 		String eqName = req.getParameter("eqName");
-		 
+		
+		
+		
+		// CHECK FOR AN EQUIPMENT PARAMETER
+		
 		if (!(req.getParameter("eqType")==null || req.getParameter("eqName")==null || req.getParameter("email")==null))
 		{
-			 
+		
+			 //ADD EQUIPMENT
 			 success = mgr.addEquipment(eqType, eqName,email);
 			 
 			 if (success)
@@ -40,6 +47,8 @@ public class EmployeeList extends HttpServlet {
 		else
 		 
 		{
+			
+			 //ASSUME NEW EMPLOYEE AND ADD THE EMPLOYEE RECORD
 			 success = mgr.addEmployee(firstName, lastName, dept, email);
 			 
 			 if (success)
@@ -54,9 +63,6 @@ public class EmployeeList extends HttpServlet {
 		}
 	
 	}
-
-	
-
 
 	
 }

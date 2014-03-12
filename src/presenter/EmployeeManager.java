@@ -22,11 +22,14 @@ public boolean addEmployee(String firstName, String lastName, String dept, Strin
 		ObjectValidator validator = new ObjectValidator();
 		
 		
+		//CREATE AND LOAD THE PARAMETERS FOR THE TEMP EMPLOYEE OBJECT
+		
 		emp.setFirstName(firstName);
 		emp.setLastName(lastName);
 		emp.setDepartment(dept);
 		emp.setEmail(email);
 		    		
+		//VERIFY THIS EMPLOYEE OBJECT DOESN'T ALREADY EXIST
 	    if (validator.checkForDuplicate(emp)) 
 	    {
 	    	return false;
@@ -57,8 +60,6 @@ public boolean addEmployee(String firstName, String lastName, String dept, Strin
 				em.close();
 			}
 	 }
-	 
-
 		
 		return true;
 	}
@@ -73,14 +74,18 @@ public boolean addEquipment(String eqType, String eqName, String email){
 		
 		TypedQuery<Employee> myQuery;
 
+		//LOCATE THE REQUESTED EMPLOYEE RECORD
 		myQuery = em.createQuery("SELECT e FROM Employee e where e.email = :email", Employee.class);
 		myQuery.setParameter("email", email);
 		
 		try 
 		{
-			
+			//OBJECT EMPLOYEE OBJECT
 			result = myQuery.getSingleResult();
+			
+			//BRING INTO THE ENTITY MANAGER
 			managed = em.merge(result);
+			
 			success = true;
 		}
 		catch (NoResultException e)
@@ -100,26 +105,21 @@ public boolean addEquipment(String eqType, String eqName, String email){
 				
 				eq.setEquipmentName(eqName);
 				eq.setEquipmentType(eqType);
-				//eq.setOwner(managed);
 				
-				// ADD EQUIPMENT
-				
+				// ADD EQUIPMENT		
 				managed.addEquipment(eq);
 				
-				
-				//managed.addEquipment(eq);
-			
-				
+							
 			    // WRITE RECORD TO DATASTORE
 			    em.getTransaction().commit();
 		
 			    success = true;
 	    
 			}
-		    /*catch (Exception e){
+		    catch (Exception e){
 		    	success = false;
 		    }
-*/
+
 			finally{}
 			
 			
@@ -139,6 +139,8 @@ public List<Employee> retrieveEmployeeList(){
 		try
 		{
 		
+			//OBTAIN ALL OF THE EMPLOYEES IN THE DATASTORE TO THE RESULTS
+			
 			myQuery = em.createQuery("SELECT e FROM Employee e", Employee.class);
 			results = myQuery.getResultList();    
 			results = em.merge(results);
@@ -160,8 +162,9 @@ public List<Employee> retrieveEmployeeList(){
 	}
 	
 	
-public boolean deleteEmploye(String email){
+public boolean deleteEmployee(String email){
 		
+	
 		EntityManager em = EMF.get().createEntityManager();
 		boolean success = false;
 	
@@ -190,15 +193,10 @@ public boolean deleteEmploye(String email){
 			
 				// BEGIN TRANSACTION
 				em.getTransaction().begin();
-				// ADD EQUIPMENT
 				
 				Employee managed = em.merge(result);
 				
 				em.remove(managed);
-		
-			    // WRITE RECORD TO DATASTORE
-			    //Employee managed = em.merge(emp);
-			    			    
 			    
 			    // COMMIT ENTRIES
 			    em.getTransaction().commit();
@@ -227,7 +225,6 @@ public List<Equipment> retrieveEmployeeEquipment(Employee emp)
 		EntityManager em = EMF.get().createEntityManager();
 		TypedQuery<Equipment> myQuery;
 		List<Equipment> results = null;
-
 		
 		try
 		{
@@ -253,7 +250,9 @@ public List<Equipment> retrieveEmployeeEquipment(Employee emp)
 	}
 	
 	@SuppressWarnings("finally")
-public boolean eraseAllRecords(){
+
+	
+	public boolean eraseAllRecords(){
 		//THIS WILL DELETE THE EMPLOYEES AND ALSO REMOVE THE CHILD RECORDS
 		
 		EntityManager em = EMF.get().createEntityManager();
