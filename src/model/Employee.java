@@ -36,6 +36,7 @@ public class Employee implements Serializable
 	private String email;   
     private String department;
     
+    private String branchTest;
     
     @OneToMany(cascade = CascadeType.ALL,  mappedBy = "employee", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Equipment> empEquipment;
@@ -135,6 +136,14 @@ public class Employee implements Serializable
     	
     		return true;
     }
+
+	public String getBranchTest() {
+		return branchTest;
+	}
+
+	public void setBranchTest(String branchTest) {
+		this.branchTest = branchTest;
+	}
 
     
 }
