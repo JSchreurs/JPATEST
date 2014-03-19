@@ -35,6 +35,7 @@ public class Employee implements Serializable
     private int salary;
 	private String email;   
     private String department;
+    private String test;
     
     private String branchTest;
     
